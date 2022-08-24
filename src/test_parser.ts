@@ -234,7 +234,10 @@ async function parseJunitXml(xml: any): Promise<TestResult> {
         for (const testcase of testsuite.testcase) {
             let status = TestStatus.Pass
 
+            core.debug('id')
             const id = testcase.$.id
+            core.debug('done')
+            core.debug(`${id}`)
             const classname = testcase.$.classname
             const name = testcase.$.name
             const duration = testcase.$.time
