@@ -137,7 +137,7 @@ function run() {
             core.setOutput('passed', total.counts.passed);
             core.setOutput('failed', total.counts.failed);
             core.setOutput('skipped', total.counts.skipped);
-            core.setOutput('tests', total.counts.passed + total.counts.failed + total.counts.skipped);
+            core.setOutput('total', total.counts.passed + total.counts.failed + total.counts.skipped);
         }
         catch (error) {
             if (error instanceof Error) {
@@ -267,6 +267,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.parseFile = exports.parseJunitFile = exports.parseTapFile = exports.parseJunit = exports.parseTap = exports.TestStatus = void 0;
 const fs = __importStar(__nccwpck_require__(7147));
 const util = __importStar(__nccwpck_require__(3837));
+const core = __importStar(__nccwpck_require__(2186));
 const xml2js_1 = __importDefault(__nccwpck_require__(6189));
 var TestStatus;
 (function (TestStatus) {
@@ -511,10 +512,12 @@ function parseFile(filename) {
         if (data.match(/^TAP version 13\r?\n/) ||
             data.match(/^ok /) ||
             data.match(/^not ok /)) {
+            core.debug(`Parsing '${filename}' as TAP`);
             return yield parseTap(data);
         }
         const xml = yield parser(data);
         if (xml.testsuites || xml.testsuite) {
+            core.debug(`Parsing '${filename}' as Junit`);
             return yield parseJunitXml(xml);
         }
         throw new Error(`unknown test file type for '${filename}'`);

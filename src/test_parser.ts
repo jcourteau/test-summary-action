@@ -1,5 +1,6 @@
 import * as fs from "fs"
 import * as util from "util"
+import * as core from "@actions/core"
 
 import xml2js from "xml2js"
 
@@ -299,12 +300,14 @@ export async function parseFile(filename: string): Promise<TestResult> {
     if (data.match(/^TAP version 13\r?\n/) ||
         data.match(/^ok /) ||
         data.match(/^not ok /)) {
+        core.debug(`Parsing '${filename}' as TAP`)
         return await parseTap(data)
     }
 
     const xml: any = await parser(data)
 
     if (xml.testsuites || xml.testsuite) {
+        core.debug(`Parsing '${filename}' as Junit`)
         return await parseJunitXml(xml)
     }
 
