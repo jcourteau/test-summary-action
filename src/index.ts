@@ -119,7 +119,7 @@ async function run(): Promise<void> {
     core.setOutput('passed', total.counts.passed)
     core.setOutput('failed', total.counts.failed)
     core.setOutput('skipped', total.counts.skipped)
-    core.setOutput('tests', total.counts.passed + total.counts.failed + total.counts.skipped)
+    core.setOutput('total', total.counts.passed + total.counts.failed + total.counts.skipped)
 
   } catch (error) {
     if (error instanceof Error) {
