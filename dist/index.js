@@ -446,26 +446,31 @@ function parseJunitXml(xml) {
             }
             for (const testcase of testsuite.testcase) {
                 let status = TestStatus.Pass;
-                core.debug('id');
                 const id = testcase.$.id;
-                core.debug('done');
-                core.debug(`${id}`);
+                core.debug(`id: ${id}`);
                 const classname = testcase.$.classname;
+                core.debug(`classname: ${classname}`);
                 const name = testcase.$.name;
+                core.debug(`name: ${name}`);
                 const duration = testcase.$.time;
+                core.debug(`duration: ${duration}`);
                 let details = undefined;
                 if (testcase.skipped) {
                     status = TestStatus.Skip;
                     counts.skipped++;
+                    core.debug(`skipped; ${counts.skipped}`);
                 }
                 else if (testcase.failure || testcase.error) {
                     status = TestStatus.Fail;
                     details = testcase.failure[0]._;
                     counts.failed++;
+                    core.debug(`failed; ${counts.failed}, details=${details}`);
                 }
                 else {
                     counts.passed++;
+                    core.debug(`passed; ${counts.passed}`);
                 }
+                core.debug('finished parsing the testcase');
                 cases.push({
                     status: status,
                     name: name,
