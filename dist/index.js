@@ -460,11 +460,17 @@ function parseJunitXml(xml) {
                     counts.skipped++;
                     core.debug(`skipped; ${counts.skipped}`);
                 }
-                else if (testcase.failure || testcase.error) {
+                else if (testcase.failure) {
                     status = TestStatus.Fail;
                     details = testcase.failure[0]._;
                     counts.failed++;
                     core.debug(`failed; ${counts.failed}, details=${details}`);
+                }
+                else if (testcase.error) {
+                    status = TestStatus.Fail;
+                    details = testcase.error[0]._;
+                    counts.failed++;
+                    core.debug(`error, counts as failed; ${counts.failed}, details=${details}`);
                 }
                 else {
                     counts.passed++;
