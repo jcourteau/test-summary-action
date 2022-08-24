@@ -11,7 +11,7 @@ inputs:
     description: Types of tests to show in the results table
 runs:
   using: 'node12'
-  main: 'index.js'
+  main: 'dist/index.js'
 branding:
   icon: check-square
   color: green
