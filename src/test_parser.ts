@@ -221,10 +221,13 @@ async function parseJunitXml(xml: any): Promise<TestResult> {
         skipped: 0
     }
 
+    core.debug('about to parse test suites')
+
     for (const testsuite of testsuites) {
         const cases = [ ]
 
         if (!Array.isArray(testsuite.testcase)) {
+            core.debug('teststuite.testcase not an array')
             continue
         }
 
@@ -258,6 +261,8 @@ async function parseJunitXml(xml: any): Promise<TestResult> {
                 details: details,
                 duration: duration
             })
+
+            core.debug(`s: ${counts.skipped} p: ${counts.passed} f: ${counts.failed} id: ${id} classname: ${classname}`)
         }
 
         suites.push({

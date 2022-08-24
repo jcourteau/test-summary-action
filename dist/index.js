@@ -437,9 +437,11 @@ function parseJunitXml(xml) {
             failed: 0,
             skipped: 0
         };
+        core.debug('about to parse test suites');
         for (const testsuite of testsuites) {
             const cases = [];
             if (!Array.isArray(testsuite.testcase)) {
+                core.debug('teststuite.testcase not an array');
                 continue;
             }
             for (const testcase of testsuite.testcase) {
@@ -468,6 +470,7 @@ function parseJunitXml(xml) {
                     details: details,
                     duration: duration
                 });
+                core.debug(`s: ${counts.skipped} p: ${counts.passed} f: ${counts.failed} id: ${id} classname: ${classname}`);
             }
             suites.push({
                 name: testsuite.$.name,
